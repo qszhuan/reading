@@ -1,6 +1,6 @@
 ---
 title: 读《岁朝清供》  
-category: reading  
+category: novel  
 tags: [reading]  
 layout: post  
 thumbnail: /assets/images/books/岁朝清供.jpg
@@ -12,7 +12,7 @@ thumbnail: /assets/images/books/岁朝清供.jpg
 
 > 画里画的、实际生活里供的，无非是这几样：天竹果、腊梅花、水仙。有时为了填补空白，画里加两个香橼。“橼”谐音圆，取其吉利。水仙、腊梅、天竹，是取其颜色鲜丽。隆冬风厉，百卉凋残，晴窗坐对，眼目增明，是岁朝乐事。
 
-![image]({{ site.url }}/assets/images/books/renbonian.jpg)
+![image]({{ site.baseurl }}/assets/images/books/renbonian.jpg)
 
 
 

@@ -1,9 +1,9 @@
 ---
 title: 读《彷徨之刃》  
-category: reading  
+category: novel  
 tags: [reading]  
 layout: post  
-thumbnail: /assets/images/panghuangzhiren.jpg
+thumbnail: /assets/images/books/panghuangzhiren.jpg
 ---
 
 

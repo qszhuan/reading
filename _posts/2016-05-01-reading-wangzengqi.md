@@ -1,6 +1,6 @@
 ---
 title: 读《汪曾祺小说经典》  
-category: reading  
+category: novel  
 tags: [reading]  
 layout: post  
 thumbnail: /assets/images/books/汪曾祺小说经典.jpg

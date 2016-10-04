@@ -1,6 +1,6 @@
 ---
 title: 读《第一本Docker书》  
-category: reading  
+category: development  
 tags: [reading]  
 layout: post  
 thumbnail: /assets/images/books/thedockerbook.jpg
@@ -8,7 +8,7 @@ thumbnail: /assets/images/books/thedockerbook.jpg
 
 Docker的文件系统层：
 
-![image]({{ site.url }}/assets/images/dockerlayers.png)
+![image]({{ site.baseurl }}/assets/images/dockerlayers.png)
 
 非常好的一本docker入门书，除了讲基本的docker命令和配置，也覆盖了很多docker的实用场景，如web server、jenkins agent、log server、redis server。
 

@@ -1,9 +1,9 @@
 ---
 title: 读《岛上书店》  
-category: reading  
+category: novel  
 tags: [reading]  
 layout: post  
-thumbnail: /assets/images/bookstore.jpg
+thumbnail: /assets/images/books/bookstore.jpg
 ---
 
 如果说有那本书让我觉得书读得少，无疑就是这本了。这本小说每章节的开头是一篇书评，而且在书中多次引用其他书名、作者及主人公，多达121次。

@@ -1,6 +1,6 @@
 ---
 title: 读《追风筝的人》  
-category: reading  
+category: novel  
 tags: [reading]  
 layout: post  
 thumbnail: /assets/images/books/the-kate-runner.jpg
@@ -50,7 +50,7 @@ thumbnail: /assets/images/books/the-kate-runner.jpg
 
 阿富汗地图：
 
-![image]({{ site.url }}/assets/images/books/afghan.png)
+![image]({{ site.baseurl }}/assets/images/books/afghan.png)
 
 #### 关于可兰经
 

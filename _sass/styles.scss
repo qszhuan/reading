@@ -1,0 +1,68 @@
+
+.thumbnails{
+    width: 0;
+    height: 0;
+    overflow:hidden;
+}
+
+.readings .post{
+    overflow: hidden;
+    margin: 0 0 10px 0;
+}
+.readings .thumbnails{
+    width: 200px;
+    height: auto;
+    float: right;
+    margin: 0 0 5px 5px;
+}
+.readings .entry .intro{
+
+      display: block;
+    }
+
+@media screen and (max-width: 400px){
+    .readings .entry .intro{
+
+      display: none;
+    }
+    .readings .thumbnails{
+        width: 200px;
+        height: auto;
+        visibility: visible;
+        float: none;
+        margin: auto;
+
+    }
+    .readings .thumbnails ~p{
+        display:none;
+    }
+
+    .readings .read-more{
+        display:none;
+    }
+}
+
+.recent-posts .post {
+    border-bottom: 1px solid #eee;
+    padding-bottom: 30px;
+    margin-bottom: 20px;
+}
+
+.recent-posts .post .date{
+    color: rgba(0,0,0,0.2);
+    font-size: 14px;
+    font-weight: bold;
+    margin-left: 10px;
+}
+
+.content h3{
+    border-bottom: 1px solid #aaa;
+}
+
+.content h3:before{
+    content:'$ '
+}
+
+h1,h2,h3{
+        margin-top: 1em;
+}

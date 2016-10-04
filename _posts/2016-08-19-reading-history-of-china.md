@@ -1,6 +1,6 @@
 ---
 title: 读《中国史纲》  
-category: reading  
+category: history  
 tags: [reading]  
 layout: post  
 thumbnail: /assets/images/books/中国史纲.jpg

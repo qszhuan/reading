@@ -1,23 +1,33 @@
 ---
-layout: default
+layout: page
 ---
 
 <div class="home">
 
-  <h1 class="page-heading">Posts</h1>
-
-  <ul class="post-list">
+  <h1 class="page-heading">阅读笔记</h1>
+  <div class="readings">
     {% for post in site.posts %}
-      <li>
-        <span class="post-meta">{{ post.date | date: "%b %-d, %Y" }}</span>
 
-        <h2>
-          <a class="post-link" href="{{ post.url | prepend: site.baseurl }}">{{ post.title | escape }}</a>
-        </h2>
-      </li>
+      {% if post.category != "writing" %}
+        <article class="post">
+          <h3><a href="{{  post.url | prepend: site.baseurl  }}">{{ post.title }}</a></h3>
+          <div class="entry">
+            {% if post.thumbnail %}
+              <div  class="thumbnails">
+                <img src="{{post.thumbnail | prepend: site.baseurl }}" width='200'>
+              </div>
+            {% endif %}
+            <div class="intro">
+            {{ post.content | strip_html | truncatewords:5 }}
+            </div>
+          </div>
+
+          <a href="{{  post.url | prepend: site.baseurl  }}" class="read-more">Read More >> </a>
+        </article>
+      {% endif %}
     {% endfor %}
-  </ul>
-
+  </div>
+<!--{% include footer.html %}-->
   <p class="rss-subscribe">subscribe <a href="{{ "/feed.xml" | prepend: site.baseurl }}">via RSS</a></p>
 
 </div>
