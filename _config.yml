@@ -26,6 +26,8 @@ github_username:
 markdown: kramdown
 theme: minima
 
+#
+google_analytics: UA-66394629-2
 
 sass:
     sass_dir: _sass
