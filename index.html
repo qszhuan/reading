@@ -2,15 +2,17 @@
 layout: page
 ---
 
-<div class="home">
-
-  <h1 class="page-heading">阅读笔记</h1>
+<div class="home content">
   <div class="readings">
     {% for post in site.posts %}
 
       {% if post.category != "writing" %}
         <article class="post">
-          <h3><a href="{{  post.url | prepend: site.baseurl  }}">{{ post.title }}</a></h3>
+          <h3>
+            <a href="{{  post.url | prepend: site.baseurl  }}">{{ post.title }}</a>
+            <span class="post-meta"><time datetime="{{ post.date | date_to_xmlschema }}" itemprop="datePublished">{{ post.date | date: "%Y年%-m月%-d日" }}</time>{% if post.author %} • <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span itemprop="name">{{ post.author }}</span></span>{% endif %}</span>
+  
+          </h3>
           <div class="entry">
             {% if post.thumbnail %}
               <div  class="thumbnails">
@@ -22,10 +24,10 @@ layout: page
             </div>
           </div>
 
-          <a href="{{  post.url | prepend: site.baseurl  }}" class="read-more">Read More >> </a>
+          <a href="{{  post.url | prepend: site.baseurl  }}" class="read-more">更多 >> </a>
         </article>
       {% endif %}
     {% endfor %}
   </div>
-  <p class="rss-subscribe">subscribe <a href="{{ "/feed.xml" | prepend: site.baseurl }}">via RSS</a></p>
+  <p class="rss-subscribe">subscribe <a href="{{ "/feed.xml" | prepend: site.baseurl }}">RSS 订阅</a></p>
 </div>

@@ -32,5 +32,6 @@ disqus:
     shortname: killera
 
 #other
+lang: zh-Hans
 sass:
     sass_dir: _sass

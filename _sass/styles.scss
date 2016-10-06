@@ -1,13 +1,36 @@
+body{
+    background-color: #f5f5f5;
+    color:#333;
+}
+h1, h2, h3, h4, h5, h6 {
+    font-weight: bold;
+    position: relative;
+}
+a:hover {
+    color: #005580;
+    text-decoration: underline;
+}
 
 .thumbnails{
     width: 0;
     height: 0;
     overflow:hidden;
+    img{
+        border: 1px solid #ccc;
+        box-sizing: border-box;
+    }
 }
 
 .readings .post{
     overflow: hidden;
     margin: 0 0 10px 0;
+    h3{
+        .post-meta{
+            position: absolute;
+            right:0;
+            bottom: 0;
+        }
+    }
 }
 .readings .thumbnails{
     width: 200px;
