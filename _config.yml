@@ -26,8 +26,11 @@ github_username:
 markdown: kramdown
 theme: minima
 
-#
+# tracking
 google_analytics: UA-66394629-2
+disqus:
+    shortname: killera
 
+#other
 sass:
     sass_dir: _sass
