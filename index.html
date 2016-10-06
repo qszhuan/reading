@@ -6,7 +6,7 @@ layout: page
   <div class="readings">
     {% for post in site.posts %}
 
-      {% if post.category != "writing" %}
+      {% if post.category != "写作" %}
         <article class="post">
           <h3>
             <a href="{{  post.url | prepend: site.baseurl  }}">{{ post.title }}</a>
