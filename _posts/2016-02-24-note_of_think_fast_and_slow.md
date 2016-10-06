@@ -3,7 +3,7 @@ title: 读《思考，快与慢》
 category: 心理学  
 tags: []  
 layout: post  
-thumbnail: /assets/images/thinking.jpg
+thumbnail: /assets/images/books/thinking.jpg
 ---
 
 

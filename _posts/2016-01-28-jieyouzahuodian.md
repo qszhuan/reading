@@ -3,7 +3,7 @@ title: 读《解忧杂货店》
 category: 小说  
 tags: []  
 layout: post  
-thumbnail: /assets/images/jieyou.jpg
+thumbnail: /assets/images/books/jieyou.jpg
 ---
 
 几年前看过东野圭吾的三部作品，《嫌疑人X的献身》、《放学后》、《白夜行》，每一部作品都具有很强的推理性，非常好看。这部《解忧杂货店》风格却不同，应该算是一部科幻小说，三个小偷偶然进入“解忧杂货店”，收到了几十年前的一些人的烦恼咨询信，从此便揭开了“解忧杂货店”的秘密。读完后让人感到温暖、感动和平静。
