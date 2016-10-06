@@ -1,6 +1,6 @@
 ---
 title: 读《第一本Docker书》  
-category: development  
+category: 软件开发  
 tags: [reading]  
 layout: post  
 thumbnail: /assets/images/books/thedockerbook.jpg

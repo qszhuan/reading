@@ -1,6 +1,6 @@
 ---
 title: 读《岛上书店》  
-category: novel  
+category: 小说 
 tags: [reading]  
 layout: post  
 thumbnail: /assets/images/books/bookstore.jpg

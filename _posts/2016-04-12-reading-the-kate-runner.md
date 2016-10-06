@@ -1,6 +1,6 @@
 ---
 title: 读《追风筝的人》  
-category: novel  
+category: 小说  
 tags: [reading]  
 layout: post  
 thumbnail: /assets/images/books/the-kate-runner.jpg

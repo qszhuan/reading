@@ -1,6 +1,6 @@
 ---
 title: 读《岁朝清供》  
-category: novel  
+category: 小说  
 tags: [reading]  
 layout: post  
 thumbnail: /assets/images/books/岁朝清供.jpg

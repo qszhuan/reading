@@ -1,6 +1,6 @@
 ---
 title:   读《A Good Man is Hard to Find》   
-category: novel   
+category: 小说   
 tags: [reading]  
 layout: post  
 thumbnail: /assets/images/books/goodman.jpg

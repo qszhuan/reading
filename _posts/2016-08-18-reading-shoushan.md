@@ -1,6 +1,6 @@
 ---
 title: 读《收山》  
-category: novel  
+category: 小说  
 tags: [reading]  
 layout: post  
 thumbnail: /assets/images/books/shoushan.jpg
