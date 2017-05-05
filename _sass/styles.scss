@@ -61,10 +61,14 @@ blockquote{
 }
 .readings-list .thumbnails {
     margin: 5px;
-    display: inline-table;
+    display: inline;
     vertical-align: bottom;
-    box-shadow: 5px 5px 2px #888888;
-    
+    img{
+        vertical-align: bottom;
+        box-shadow: 5px 5px 2px #888888;
+        margin-bottom: 15px;
+        margin-right: 5px;
+    }
 }
 .readings .entry .intro{
 
