@@ -45,6 +45,27 @@ blockquote{
     float: right;
     margin: 0 0 5px 5px;
 }
+.readings-list h3 { 
+    font-family: 'Open Sans', sans-serif; 
+    font-weight: 100;
+    }
+.readings-list h3  .header-year{
+    margin-right: 5px;
+    font-family: 'Gravitas One', cursive;
+}
+.readings-list h3  .header-counter{
+    margin-left: 5px;
+    margin-right: 5px;
+    color: green;
+    font-family: 'Gravitas One', cursive;
+}
+.readings-list .thumbnails {
+    margin: 5px;
+    display: inline-table;
+    vertical-align: bottom;
+    box-shadow: 5px 5px 2px #888888;
+    
+}
 .readings .entry .intro{
 
       display: block;
