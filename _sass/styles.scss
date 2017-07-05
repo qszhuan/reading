@@ -75,17 +75,41 @@ blockquote{
     }
 }
 .readings .entry .intro{
+    display: block;
+}
+.amazon-buy{
+    float: right;
+    margin-left: 10px;
+}
+.big-banner {
+    margin: auto;
+    display: block;
+}
+.sm-banner {
+    margin: auto;
+    display: none;
+}
 
-      display: block;
-    }
 @media screen and (max-width: 567px){
     .readings .post h3{
         .post-meta{
             display: none;
         }
     }
+    .big-banner {
+        display: none;
+    }
+    .sm-banner {
+        display: block;
+    }
 }
 @media screen and (max-width: 400px){
+    .big-banner {
+        display: none;
+    }
+    .sm-banner {
+        display: block;
+    }
     .readings .entry .intro{
 
       display: none;
