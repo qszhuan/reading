@@ -80,6 +80,14 @@ blockquote{
 .amazon-buy{
     float: right;
     margin-left: 10px;
+    .kindle::before{
+        content:"Kindle版：";
+        font-weight: bold;
+    }
+    .paper::before{
+        content: "纸质书";
+        font-weight: bold;
+    }
 }
 .big-banner {
     margin: auto;
