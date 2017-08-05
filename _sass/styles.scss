@@ -78,7 +78,10 @@ blockquote{
     display: block;
 }
 .amazon-buy{
-    float: right;
+    >div {
+        display: inline-block;
+    }
+  //  float: right;
     margin-left: 10px;
     .kindle::before{
         content:"Kindle版：";
