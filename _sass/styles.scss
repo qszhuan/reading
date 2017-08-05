@@ -84,11 +84,11 @@ blockquote{
   //  float: right;
     margin-left: 10px;
     .kindle::before{
-        content:"Kindle版：";
+        content:"Kindle版: ";
         font-weight: bold;
     }
     .paper::before{
-        content: "纸质书";
+        content: "纸质书: ";
         font-weight: bold;
     }
 }
