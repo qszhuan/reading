@@ -5,7 +5,7 @@ tags: [阅读]
 layout: post  
 author:  Jeff Gothelf
 name: 
-thumbnail: /assets/images/books/Lean vs Agile vs Design Thinking.jpg
+thumbnail: /assets/images/books/Lean Vs Agile Vs Design thinking.jpg
 ---
 
 这本书只有50多页，美国亚马逊的售价是$9.99。它直接点出了当下软件开发中的困境。是的，所有的公司都在提敏捷，精益，设计思维。不提这些都不好意思说自己是软件公司。然后，你就会发现，这些概念都被不同的角色“承包”了。设计人员的“设计思维”，开发人员的“敏捷”，项目经理的“精益”，每个人都从中找到了让自己闪光的点。然后不同角色在自己的“泳道”里去应用这些实践，把自己的思维局限在自己的区域，别人别想碰，我也不想出这个区域。
