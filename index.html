@@ -5,7 +5,7 @@ layout: page
 
 <div class="home content">
   <div class="readings">
-  {% for post in site.posts %}
+  {% for post in site.posts limit:3 %}
 
       {% if post.category != "写作" %}
         <article class="post">
