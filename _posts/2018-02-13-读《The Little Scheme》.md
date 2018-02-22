@@ -87,8 +87,8 @@ thumbnail: /assets/images/books/The Little Scheme.jpg
 )
 {% endhighlight %}
 
-##### 第四诫：
-递归时始终要改变至少一个参数。而且这个改变必须是朝着终点越来越近。必须在终止条件中对改变的参数进行测试：当使用cdr时，用null？来检查是不是应该结束。
+>**第四诫：**  
+>递归时始终要改变至少一个参数。而且这个改变必须是朝着终点越来越近。必须在终止条件中对改变的参数进行测试：当使用cdr时，用null？来检查是不是应该结束。
 
 #### 数字游戏
 
@@ -115,10 +115,10 @@ thumbnail: /assets/images/books/The Little Scheme.jpg
 ; 对于上述命令(* n m)的natural recursion是 (* n (sub1 m))
 {% endhighlight %}
 
-##### 第五诫
-当用+来求值时，要用0作为终止行的值，因为加0不会影响加法的结果。
-当用x来求值时，要用1作为终止行的值，因为乘以1不会影响乘法的结果。
-当用cons求值时，要用()作为终止行的值。
+>**第五诫**
+>当用+来求值时，要用0作为终止行的值，因为加0不会影响加法的结果。  
+>当用x来求值时，要用1作为终止行的值，因为乘以1不会影响乘法的结果。  
+>当用cons求值时，要用()作为终止行的值。
 
 {% highlight scheme %}
 (define tup+
@@ -208,13 +208,12 @@ thumbnail: /assets/images/books/The Little Scheme.jpg
 
 这可以理解为多维递归，如从(abc def (abc def) (abc (abc de)))中去掉所有abc后为(def (def) ((de)))。
 
-#####第四诫（最终版）
-
-递归时要始终改变至少一个参数。当递归一个atom的列表lat时，用(cdr lat)。当递归一个数字n时，使用(sub1 n)。当递归一个S-表达式列表l时，如果(null? l)和(atom? (car l)) 都不为true，使用(car l)和(cdr l)。
+>**第四诫（最终版）**  
+>递归时要始终改变至少一个参数。当递归一个atom的列表lat时，用(cdr lat)。当递归一个数字n时，使用(sub1 n)。当递归一个S-表达式列表l时，如果(null? l)和(atom? (car l)) 都不为true，使用(car l)和(cdr l)。
 参数必须是朝着递归终止的方向改变。需要在终止条件中对参数进行测试：
-
-当使用cdr时，检查是否以null?结束；
-当使用sub1时，检查是否以zero?结束。
+>
+>当使用cdr时，检查是否以null?结束；  
+>当使用sub1时，检查是否以zero?结束。
 
 
 {% highlight scheme %}
@@ -285,19 +284,20 @@ thumbnail: /assets/images/books/The Little Scheme.jpg
 )
 {% endhighlight %}
 
-#####第六诫
-仅当功能正确之后再进行简化
+>**第六诫**  
+>仅当功能正确之后再进行简化
 
-####第六章 影子
+#### 第六章 影子
+
 这一章主要讲算术。
 
 本章算术的定义：算术表达式是一个atom（包括数字），或者用+，x或↑连接的两个算术表达式。
 
-##### 第七诫
-在subparts上递归有着相同的特性：
-
-* 在list的子列表上
-* 在算术表达式的子表达式上
+>**第七诫**  
+>在subparts上递归有着相同的特性：
+>
+>* 在list的子列表上
+>* 在算术表达式的子表达式上
 
 {% highlight scheme %}
 ;求表达式的值 
@@ -331,9 +331,447 @@ thumbnail: /assets/images/books/The Little Scheme.jpg
 
 {% endhighlight %}
 
-#####第八诫
-使用辅助函数对表现形式进行抽象
+>**第八诫**  
+>使用辅助函数对表现形式进行抽象
 
+>**第九诫**  
+>把相同的模式抽象成函数
+
+{% highlight scheme %}
+;difficult...
+
+(define multirember&co
+    (lambda (a lat col)
+        (cond
+            ( 
+                (null? lat) 
+                (col (quote ()) (quote ()))
+            )
+            (
+                (eq? (car lat) a)
+                (multirember&co 
+                    a (cdr lat)
+                    (lambda (newlat seen)
+                        (col newlat
+                            (cons (car lat) seen)
+                        )
+                    )
+                )
+            )
+            (
+                else
+                (multirember&co
+                    a (cdr lat)
+                    (lambda (newlat seen)
+                        (col 
+                            (cons (car lat) newlat)
+                            seen
+                        )
+                    )
+                )
+
+            )
+        )
+    )
+)
+
+
+(define a-friend
+    (lambda (x y)
+        (null? y)
+    )
+)
+
+; What's the value (multirember&co a lat col)
+; Where 
+; a is tuna
+; lat is ()
+; col is a-friend
+;; The result is #t
+
+
+; What's the value (multirember&co a lat col)
+; Where 
+; a is tuna
+; lat is (tuna)
+; col is a-friend
+
+;; define the new collector
+
+(define new-friend
+    (lambda (newlat seen)
+        (col 
+            newlat
+            (cons (car lat) seen)
+        )
+    )
+)
+
+;; It asnsers #f, as the second arg for a-friend is (cons (quote tuna) (quote ())), which is not null.
+
+
+; What's the value (multirember&co a lat col)
+; Where 
+; a is tuna
+; lat is (and tuna)
+; col is a-friend
+;; this time, it will run to the third case in cond
+
+; Define the new collector
+
+(define lastest-friend
+    (lambda (newlat seen)
+        (a-friend
+            (cons (quote and) newlat)
+            seen
+        )
+    )
+)
+;; so the result if #f, as it will be (a-friend (and) (tuna))
+
+{% endhighlight %}
+
+> What does (multirember&co a lat f) do?
+
+> It looks at every atom of the lat to see whether it is eq? to a.
+>
+> Those atoms that are not are collected in one list ls1;
+>
+> the others for which the answer is true are collected in a second list Is2.
+>
+> Finally, it determines the value of (f ls1 ls2).
+
+{% highlight scheme %}
+;Final question: What is the value of
+;(multirember&co (quote tuna) Is col)
+;where
+;ls is (strawberries tuna and swordfish)
+;and
+;col is
+(define last-friend
+(lambda (x y)
+(length x)))
+
+{% endhighlight %}
+
+>**第十诫**  
+>创建函数来一次收集多个值
+
+
+{% highlight scheme %}
+(define multiinsertL
+    (lambda (new old lat)
+        ( (null? lat) (quote()))
+        ( 
+            (eq? (car lat) old)
+            (cons new
+                (cons 
+                    old
+                    (multiinsertL new old (cdr lat))
+                )
+            )
+        )
+        ( 
+            (else
+                (cons 
+                    (car lat)
+                    (multiinsertL new old (cdr lat))
+                )
+            )
+        )
+    )
+)
+
+(define multiinsertR
+    (lambda (new old lat)
+        ((null? lat) (quote()))
+        ( 
+            (eq? old (car lat))
+            (cons 
+                (car lat)
+                (cons 
+                    new 
+                    (multiinsertR new old (cdr lat))
+                )
+            )
+        )
+        (   
+            else
+            (cons
+                (car lat)
+                (multiinsertR new old (cdr lat))
+            )
+        )
+    )
+)
+{% endhighlight %}
+
+{% highlight scheme %}
+(define multiinsertLR
+    (lambda (new oldL oldR lat)
+        ( (null? lat) (quote()))
+        ( 
+            (eq? (car lat) oldL)
+            (cons 
+                new 
+                (cons
+                    oldL
+                    (multiinsertLR new oldL oldR (cdr lat))
+                )
+            )
+        )
+        (
+            (eq? (car lat) oldR)
+            (cons
+                oldR
+                (cons
+                    new
+                    (multiinsertLR new oldL oldR (cdr lat))
+                )
+            )
+        )
+        (else
+            (cons
+                (car lat)
+                (multiinsertLR new oldL oldR (cdr lat))
+            )
+        )
+    )
+)
+{% endhighlight %}
+
+下面实现multiinsetLR&co：
+
+{% highlight scheme %}
+
+(define multiinsertLR&co
+    (lambda (new oldL oldR lat col)
+        (cond
+            ; 问题1: lat是否为空
+            ( 
+                (null? lat) 
+                (col (quote ()) 0 0)
+            )
+            ; 问题2：(car lat) 是否等于 oldL
+            (
+                (eq? (car lat) oldL)
+                (multiinsertLR&co 
+                    new oldL oldR (cdr lat)
+                    (lambda (newlat L R)
+                        (col 
+                            (cons new (cons oldL newlat))
+                            (add1 L) R
+                        )
+                    )
+
+                )
+            )
+            ; 问题3：(car lat)是否等于 oldR
+            (
+                (eq? (car lat) oldR)
+                (multiinsertLR&co
+                    new oldL oldR (cdr lat)
+                    (lambda (newlat L R)
+                        (col 
+                            (cons oldR (cons new newlat))
+                            L (add1 R)
+                        )
+                    )
+                )
+            )
+            ; 问题4： else
+            ( else
+                (multiinsertLR&co
+                    new oldL oldR (cdr lat)
+                    (lambda (newlat L R)
+                        (col 
+                            (cons (car lat) newlat)
+                            L R
+                        )
+                    )
+                )
+            )
+        )
+    )
+)
+
+; (multiinsertLR&co new oldL oldR lat col)
+; 当 new = salty
+; oldL = fish
+; oldR = chips
+; lat = (chips and fish or fish and chips)
+
+; 结果是 (col newlat 2 2),
+; newlat = (chips salty and salty fish or salty fish and chips salty)
+
+{% endhighlight %}
+
+实现even-only*
+{% highlight scheme %}
+;首先是even
+(define even?
+    (lambda (n)
+        (= (x (/ n 2) 2) n)
+    )
+)
+; even-only*
+(define even-only*
+    (lambda (l)
+        (cond
+            ; null? 
+            (
+                (null? l)
+                (quote ())
+            )
+            ; atom?
+            (
+                (atom? (car l))
+                (cond
+                   ( 
+                       (even? (car l)) 
+                       (cons 
+                            (car l)
+                            (even-only* (cdr l))
+                       )
+                   )
+                   (else
+                        (even-only* (cdr l))
+                   )
+                )
+            )
+            ; else
+            (else
+                (cons
+                    (even-only* (car l))
+                    (even-only* (cdr l))
+                )
+            )
+        )
+    )
+)
+; even-only*&co
+; Can you write the function evens-only*&co
+; It builds a nested list of even numbers by
+; removing the odd ones from its argument
+; and simultaneously multiplies the even
+; numbers and sums up the odd numbers that
+; occur in its argument.
+
+(define even-only*&co
+    (lambda (l col)
+        (cond
+            ;null?
+            ( 
+                (null? l) 
+                (col (quote ()) 1 0) ;第一个参数用来存放结果，第二个存放偶数的乘积，第三个存放奇数和
+            )
+            ; atom?
+            (   
+                (atom? (car l))
+                (cond
+                    (
+                        (even? (car l))
+                        (even-only*&co
+                            (cdr l)
+                            (lambda (newl L R)
+                                (col
+                                    (cons (car l) newl)
+                                    (* (car l) L)
+                                    R
+                                )
+                            )
+                        )
+                    )
+                    (else
+                        (even-only*&co
+                            (cdr l)
+                            (lambda (newl L R)
+                                (col 
+                                    newl
+                                    L
+                                    (+ R (car l))
+                                )
+                            )
+                        )
+                    )
+                )
+            )
+            ; else
+            (else
+                (even-only*&co
+                    (car l)
+                    (lambda (al aL aR)
+                        (even-only*&co
+                            (cdr l)
+                            (lambda (dl dL dR)
+                                (col 
+                                    (cons al dl)
+                                    (* aL dL)
+                                    (+ aR dR)
+                                )
+                            
+                            )
+                        )
+                    )
+                )
+            )
+        )
+    )
+)
+{% endhighlight %}
+
+
+### 第九章
+
+以一个有趣的游戏开始：
+
+假设 a = caviar，lat = (6 2 4 caviar 5 7 3)，有(looking a lat) = #t;
+
+假设 a = caviar，lat = (6 2 grits caviar 5 7 3)，有(looking a lat) = #f;
+
+(looking a lat)，每个数字是下一个寻找的位置的下标。
+
+{% highlight scheme %}
+
+(define looking 
+    (lambda (a lat)
+        (keep-looking a (pick 1 lat) lat)
+    )
+)
+
+;没有在lat的子集上进行迭代，叫做"unnatural"迭代
+;如何保证迭代终止？
+;换句话说，终止条件是什么
+(define  keep-looking
+    (lambda (a sorn lat)
+        (cond
+            (
+                (number? sorn)
+                (keep-looking a (pick sorn lat) lat)
+            )
+            (else
+                (eq? sorn a)
+            )
+        )
+        
+    )
+)
+; looking是偏函数
+
+(define pick
+    (lambda (n lat)
+        (cond
+            ( 
+                (= 1 n)
+                (car lat)
+            )
+            (else
+                (pick (sub1 n) (cdr lat))
+            )
+        )
+    )
+)
+{% endhighlight %}
 
 
 

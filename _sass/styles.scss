@@ -8,7 +8,15 @@ h1, h2, h3, h4, h5, h6 {
     font-weight: bold;
     position: relative;
 }
+pre > code {
+    font-family: "'Monaco', 'Courier New', Courier, monospace"
+}
 
+.highlight .c1{
+    color: green;
+    font-weight: bold;
+    font-style: normal;
+}
 .site-nav {
     z-index: 1;
 }
