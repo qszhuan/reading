@@ -1,5 +1,5 @@
 ---
-title: 读《The Little Scheme》 
+title: 读《The Little Schemer》 
 category:  
 tags: [阅读]  
 layout: post  
@@ -774,4 +774,206 @@ thumbnail: /assets/images/books/The Little Scheme.jpg
 {% endhighlight %}
 
 
+## 关于Y-Combinator完全没看懂。。。。。
+
+{% highlight scheme %}
+(define will-stop?
+    (lambda (f)
+        ...
+    )
+)
+
+(define eternity
+    (lambda (x)
+        (eternity x)
+    )
+)
+{% endhighlight %}
+-----------------------------------没看懂。。。。。的分割线---------------------------------------------
+
+
+#### 第十章 这一切都有啥用？(这些的值是什么？)
+
+entry是一对列表，其中第一个是集合；并且这两个列表的长度要相同。如
+
+```
+(
+    (appetizer entree beverage)
+    (pate boeuf vin)
+)
+
+(
+    (appetizer entree beverage)
+    (beer beer beer)
+)
+
+(
+    (beverage dessert)
+    ((food is) (number one with us))
+)
+```
+
+
+{% highlight scheme %}
+;定义一个函数(lookup-in-entry name entry)
+;把找不到的情况的处理留给用户
+
+(define lookup-in-entry
+    (lambda (name entry entry-f)
+        (lookup-in-entry-help 
+            name 
+            (first entry) 
+            (second entry) 
+            entry-f
+        )
+    )
+)
+
+(define lookup-in-entry-help
+    (lambda (name names values entry-f)
+        (cond
+            (   (null? names)
+                (entry-f name)
+            )
+            (
+                (eq? (car names) name)
+                (car values)
+            )
+            (   else
+                (lookup-in-entry-help 
+                    name
+                    (cdr names)
+                    (cdr values)
+                    entry-f
+                )
+            )
+        )
+    )
+)
+{% endhighlight %}
+
+table是entry的列表，比如
+
+```
+(
+    (
+        (appetizer entree beverae)
+        (pate boeuf vin)
+    )
+    (
+        (beverage dessert)
+        ((food is) (number one with us))
+    )
+)
+```
+
+
+{% highlight scheme %}
+;实现lookup-in-table
+(define lookup-in-table
+    (lambda (name table table-f)
+        (cond
+            (   (null? table)
+                (table-f name)
+            )
+            (   else 
+                (lookup-in-entry
+                    name
+                    (car table)
+                    (lambda (name)
+                        (lookup-in-table 
+                            name 
+                            (cdr table)
+                            table-f
+                        )
+                    )
+                )
+            )
+        )
+    )
+)
+
+
+{% endhighlight %}
+
+有多少类型？
+
+```
+*const
+*quote
+*identifier
+*lambda
+*cond
+*application
+```
+
+函数是action
+
+
+{% highlight scheme %}
+(define expression-to-action
+    (lambda (e)
+        (cond 
+            (   (atom? e)
+                (atom-to-action e)
+            )
+            (   else
+                (list-to-action e)
+            )
+        )
+    )
+)
+
+(define atom-to-action
+    (lambda (e)
+        (cond
+            ((number?e) *const)
+            ((eq? e #t) *const) 
+            ((eq? e #f) *const)
+            ((eq? e (quote cons)) *const)
+            ((eq? e (quote car)) *const)
+            ((eq? e (quote cdr)) *const)
+            ((eq? e (quote null?)) *const)
+            ((eq? e (quote eq?)) *const)
+            ((eq? e (quote atom?)) *const)
+            ((eq? e (quote zero?)) *const)
+            ((eq? e (quote add1)) *const)
+            ((eq? e (quote sub1)) *const)
+            ((eq? e (quote number?)) *const)
+            (else *identifier)
+        )
+    )
+)
+
+(define list-to-action
+    (lambda (e)
+        (cond
+            (   (atom? (car e))
+                (cond
+                    (   
+                        (eq? (car e) (quote quote))
+                        *quote
+                    )
+                    (
+                        (eq? (car e) (quote lambda))
+                        *lambda
+                    )
+                    (
+                        ((eq? (car e) (quote cond)))
+                        *cond
+                    )
+                    (
+                        else
+                        *application
+                    )
+                )
+            )
+            (   else
+                *application
+            )
+        )
+    )
+)
+
+{% endhighlight %}
 
