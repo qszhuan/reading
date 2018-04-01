@@ -791,6 +791,416 @@ thumbnail: /assets/images/books/The Little Scheme.jpg
 {% endhighlight %}
 -----------------------------------没看懂。。。。。的分割线---------------------------------------------
 
+好吧，继续看，
+重新从eternity看起。
+eternity是一个不会停止的函数，因为它每次递归的仍然是原始集合（参数）本身。
+
+那么我们定义一个will-stop?函数，这个函数判断传入的参数在执行后（应用函数调用()之后）会不会停止。
+
+{% highlight scheme %}
+(define will-stop?
+    (lambda (f)
+    ...
+    )
+)
+{% endhighlight %}
+
+该函数应该返回#t或者#f。那么它完备了吗，是的因为它永远返回#t或者#f
+
+既然这样，我们举一些例子：
+
+如果f是length函数,那么(will-stop? length) 为#t。
+
+那么，对于 (will-stop? eternity)呢？
+
+因为eternity不返回，所以(will-stop? eternity)为#f。
+
+让我们再试一个函数：
+
+{% highlight scheme %}
+(define last-try
+    (lambda (x)
+        (and (will-stop? last-try)
+            (eternity x)
+        )
+    )
+)
+{% endhighlight %}
+
+我们用()进行试验，last-try(quote())
+
+假设 (will-stop? last-try)为#f，那么last-try的值为 (and #f (eternity (quote ())))。
+那么(last-try (quote()))终止了，所以我们需要假设(will-stop? last-try)为#t。
+
+如果(will-stop? last-try)为#t，那么last-try(quote())就是
+
+(and #t (eternity (quote ())))
+
+这永远无法终止。
+
+这也就说，我们无法**定义**一个(will-stop? last-try)来返回#t或者#f。
+
+那我们扔掉(define )，
+
+{% highlight scheme %}
+(lambda (l)
+    (cond 
+        ((null? l) 0)
+        (else (add1 (eternity (cdr l))))
+    )
+)
+{% endhighlight %}
+
+上面的函数定义了空列表的长度，因为如果列表不为空，函数永远不返回。
+
+我们暂且把它称为length0
+
+那如何写一个函数计算元素个数不大于1的列表的长度呢？
+
+{% highlight scheme %}
+(lambda (l)
+    (cond 
+        ((null? l) 0)
+        (else (add1 (length0 (cdr l))))
+    )
+)
+{% endhighlight %}
+
+因为length0实际上没有定义，所有我们用lambda替换掉：
+
+{% highlight scheme %}
+(lambda (l)
+    (cond 
+        ((null? l) 0)
+        (else (add1 ((lambda (l)
+                        (cond
+                            ( (null? l) 0)
+                            (else (add1 
+                                    (ternity (cdr l))
+                            ))
+                        )
+                      ) (cdr l)
+                     )))
+    )
+)
+{% endhighlight %}
+
+你应该会知道如何计算元素个数不超过2的列表的长度了。
+
+{% highlight scheme %}
+(lambda (l)
+    (cond 
+        ((null? l) 0)
+        (else (add1 ((lambda (l)
+                        (cond
+                            ( (null? l) 0)
+                            (else (add1 
+                                    ((lambda (l)
+                                        (cond
+                                            ((null? l) 0)
+                                            (else (add1 (eternity (cdr l))))
+                                        )
+                                      ) (cdr l)
+                                    )
+                            ))
+                        )
+                      ) (cdr l)
+                     )))
+    )
+)
+{% endhighlight %}
+
+按照这样，我们就有可能计算长度是无穷大的列表的长度了。但这样的函数没办法写出来。。。
+
+于是我们创建一个函数，看起来像length，但以(lambda (length))开始。
+
+
+{% highlight scheme %}
+((lambda (length)
+    (lambda (l)
+        (cond
+            ((null? l) 0)
+            (else (add1 (length (cdr l))))
+        )
+    )
+    
+  ) eternity
+)
+{% endhighlight %}
+
+上面就是length0了。
+
+重写length<=1:
+
+{% highlight scheme %}
+((lambda (f)
+    (lambda (l)
+        (cond
+            ((null? l) 0)
+            (else (add1 (f (cdr l))))
+        )
+  )) 
+  ((lambda (g)
+    (lambda (l)
+        (cond 
+            ((null? l) 0)
+            (else (add1 (g (cdr l))))
+        )
+    )
+  )
+  eternity
+  )
+)
+{% endhighlight %}
+
+重写length<=2:
+
+
+{% highlight scheme %}
+((lambda (length)
+    (lambda (l)
+        (cond
+            ((null? l) 0)
+            (else (add1 (length (cdr l))))
+        )
+  )) 
+  ((lambda (length)
+    (lambda (l)
+        (cond 
+            ((null? l) 0)
+            (else (add1 (length (cdr l))))
+        )
+    )
+  )
+  ((lambda (length)
+    (lambda (l)
+        (cond 
+            ((null? l) 0)
+            (else (add1 (length (cdr l))))
+        )
+    )
+  )
+  eternity
+  )
+  )
+)
+{% endhighlight %}
+
+重复的内容又出现了，即以length为参数的lambda，再提取出来，取名叫mk-length，从length0开始：
+
+{% highlight scheme %}
+( (lambda (mk-length)
+    (mk-length eternity))
+ (lambda (length)
+    (lambda (l)
+        (cond
+            ((null? l) 0)
+            (else (add1 (length (cdr l))))
+  )))
+)
+{% endhighlight %}
+
+对于length<=1:
+
+{% highlight scheme %}
+( (lambda (mk-length)
+    (mk-length 
+      (mk-length eternity)))
+ (lambda (length)
+    (lambda (l)
+        (cond
+            ((null? l) 0)
+            (else (add1 (length (cdr l))))
+  )))
+)
+{% endhighlight %}
+
+对于length<=2:
+
+{% highlight scheme %}
+( (lambda (mk-length)
+    (mk-length 
+      (mk-length 
+        (mk-length eternity))))
+ (lambda (length)
+    (lambda (l)
+        (cond
+            ((null? l) 0)
+            (else (add1 (length (cdr l))))
+  )))
+)
+{% endhighlight %}
+
+对于length<=3:
+
+{% highlight scheme %}
+( (lambda (mk-length)
+    (mk-length 
+      (mk-length 
+        (mk-length 
+         (mk-length eternity)))))
+ (lambda (length)
+    (lambda (l)
+        (cond
+            ((null? l) 0)
+            (else (add1 (length (cdr l))))
+  )))
+)
+{% endhighlight %}
+
+
+我们甚至可以把length0中的eternity 替换成mk-length：
+
+{% highlight scheme %}
+( (lambda (mk-length)
+    (mk-length mk-length))
+ (lambda (length)
+    (lambda (l)
+        (cond
+            ((null? l) 0)
+            (else (add1 (length (cdr l))))
+  )))
+)
+{% endhighlight %}
+
+甚至把length换成mk-length：
+
+
+{% highlight scheme %}
+( (lambda (mk-length)
+    (mk-length mk-length))
+ (lambda (mk-length)
+    (lambda (l)
+        (cond
+            ((null? l) 0)
+            (else (add1 (mk-length (cdr l))))
+  )))
+)
+{% endhighlight %}
+
+为啥？ 看上去好看。但我们需要明白并不是所有的mk-length都是一样的。
+
+>>所有的名字都是一样的，但有些名字比其他的更一样。
+
+注意到mk-length传给了mk-length,我们可以利用这个创造一个额外的递归调用。从而得到length<=1:
+
+{% highlight scheme %}
+( (lambda (mk-length)
+    (mk-length mk-length))
+ (lambda (mk-length)
+    (lambda (l)
+        (cond
+            ((null? l) 0)
+            (else (add1 ((mk-length eternity) (cdr l)))) ;注意这行
+  )))
+)
+{% endhighlight %}
+
+那可以再多一层递归吗？
+
+当然。
+
+{% highlight scheme %}
+( (lambda (mk-length)
+    (mk-length mk-length))
+ (lambda (mk-length)
+    (lambda (l)
+        (cond
+            ((null? l) 0)
+            (else (add1 ((mk-length mk-length) (cdr l)))) ;注意这行
+  )))
+)
+{% endhighlight %}
+
+这不就是length函数么？？
+
+接着把(mk-length mk-length)提取出来，命名为length
+
+
+
+{% highlight scheme %}
+( (lambda (mk-length)
+    (mk-length mk-length))
+ (lambda (mk-length)
+    ( (lambda (length)
+        (lambda (l)
+        (cond
+            ((null? l) 0)
+            (else (add1 (length (cdr l)))) 
+        ))
+      )
+      (mk-length mk-length) ;注意这行是提取出来的
+    )
+  )
+)
+{% endhighlight %}
+
+
+好了，那我们算一下(apples)这个列表l的长度：
+
+{% highlight scheme %}
+(
+    ( (lambda (mk-length)
+        (mk-length mk-length))
+    (lambda (mk-length)
+        ( (lambda (length)
+            (lambda (l)
+            (cond
+                ((null? l) 0)
+                (else (add1 (length (cdr l)))) 
+            ))
+        )
+        (mk-length mk-length) ;注意这行是提取出来的
+        )
+    ))
+    l
+)
+{% endhighlight %}
+
+首先，我们需要知道l上面那个函数的值，因为这个值是个函数，作用在l上来求l长度的。如下：
+
+{% highlight scheme %}
+( (lambda (mk-length)
+    (mk-length mk-length))
+ (lambda (mk-length)
+    ( (lambda (length)
+        (lambda (l)
+        (cond
+            ((null? l) 0)
+            (else (add1 (length (cdr l)))) 
+        ))
+      )
+      (mk-length mk-length) 
+    )
+  )
+)
+{% endhighlight %}
+
+然后， 经过若干........就得到了Y算子。。。。
+
+
+
+{% highlight scheme %}
+((lambda (mk-length)
+    (
+        (lambda (length)
+            (lambda (l)
+                (cond
+                (( null? l) 0)
+                (else (add1 (length (cdr l)))))))
+        (mk-length mk-length)
+    )
+ )
+
+(lambda (mk-length)
+    ((lambda (length)
+    (lambda (l)
+        (cond
+        (( null? l) 0)
+        (else (add1 (length (cdr l)))))))
+    (mk-length mk-length))))
+{% endhighlight %}
+
 
 #### 第十章 这一切都有啥用？(这些的值是什么？)
 
