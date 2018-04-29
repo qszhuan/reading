@@ -53,4 +53,5 @@ thumbnail: /assets/images/books/scikit-learn机器学习常用算法原理及编
 * 下面是scikit-learn官网提供的如何选择算法的速查表：
 
 [![image][scikit-cheatsheet]][scikit-cheatsheet]
+
 [scikit-cheatsheet]: {{ site.baseurl }}/assets/images/ml_map.png "scikit-learn 算法速查表"
